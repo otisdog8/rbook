@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:rbook/views/library.dart';
+import 'package:rbook/views/reading_now.dart';
+import 'package:rbook/views/settings.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -11,24 +14,9 @@ class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
   static const List<Widget> _pages = <Widget>[
-    Center(
-      child: Icon(
-        Icons.book,
-        size: 150,
-      ),
-    ),
-    Center(
-      child: Icon(
-        Icons.library_books,
-        size: 150,
-      ),
-    ),
-    Center(
-      child: Icon(
-        Icons.settings,
-        size: 150,
-      ),
-    ),
+    ReadingNowPage(),
+    LibraryPage(),
+    SettingsPage(),
   ];
 
   void _onItemTapped(int index) {
