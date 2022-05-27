@@ -29,6 +29,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  iridium_reader_widget:
+    path: ./iridium/reader_widget
 
 
   # The following adds the Cupertino Icons font to your application.
