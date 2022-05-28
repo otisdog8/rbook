@@ -13,7 +13,7 @@ class ReadingNowPage extends StatefulWidget {
 }
 
 class _ReadingNowPageState extends State<ReadingNowPage> {
-  String path = "/data/user/0/dev.rooty.rbook/app_flutter/war-and-peace.epub";
+  String _path = "/data/user/0/dev.rooty.rbook/app_flutter/war-and-peace.epub";
 
   void downloadFile(Directory directory) {
     print(directory.path);
@@ -27,6 +27,9 @@ class _ReadingNowPageState extends State<ReadingNowPage> {
       dio.download("https://www.feedbooks.com/book/83.epub",
           "${directory.path}/war-and-peace.epub");
     }
+    setState(() {
+      _path = "${directory.path}/war-and-peace.epub";
+    });
   }
 
   @override
@@ -53,7 +56,7 @@ class _ReadingNowPageState extends State<ReadingNowPage> {
                   context,
                   MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          EpubScreen.fromPath(filePath: path)),
+                          EpubScreen.fromPath(filePath: _path)),
                 );
               },
               child: Text('Read book'))),
