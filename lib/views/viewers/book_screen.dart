@@ -5,6 +5,7 @@ import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:rbook/util/sync.dart';
 import 'package:rbook/views/viewers/model/in_memory_reader_annotation_repository.dart';
 import 'package:rbook/views/viewers/ui/reader_app_bar.dart';
 import 'package:rbook/views/viewers/ui/reader_toolbar.dart';
@@ -30,6 +31,7 @@ abstract class BookScreenState<T extends BookScreen,
     PubController extends PublicationController> extends State<T> {
   late PubController publicationController;
   late ReaderContext readerContext;
+  late Sync sync;
 
   ReaderAnnotationRepository get readerAnnotationRepository =>
       widget.readerAnnotationRepository ?? InMemoryReaderAnnotationRepository();
@@ -112,38 +114,7 @@ abstract class BookScreenState<T extends BookScreen,
 
   void onReaderContextCreated(ReaderContext readerContext) {
     this.readerContext = readerContext;
-    var md5SumBuilt = false;
-    var md5Sum = null;
-    // Get md5sum for sync
-    try {
-      var filePath = readerContext.asset.file.path;
-      Md5FileChecksum.getFileChecksum(filePath: filePath).then((checksum) {
-        md5SumBuilt = true;
-        md5Sum = checksum;
-      });
-    }
-    catch (exception) {
-      print("err");
-    }
-    readerContext.asset.file;
-    var currentHref = "";
-    readerContext.currentLocationStream.listen(
-      (event) {
-        if (currentHref != readerContext.currentSpineItem!.href) {
-          currentHref = readerContext.currentSpineItem!.href;
-          for (var i = 0; i<readerContext.flattenedTableOfContents.length; i++) {
-            if (readerContext.flattenedTableOfContents[i].href == readerContext.currentSpineItem!.href.substring(1)) {
-              // Push stuff here
-
-              print(i);
-            }
-          }
-        }
-
-      },
-      onDone: () => print('Done'),
-      onError: (error) => print(error),
-    );
+    this.sync = Sync(readerContext);
     // Use locator here to do stuff?
   }
 

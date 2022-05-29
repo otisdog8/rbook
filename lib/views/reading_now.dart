@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:rbook/util/router.dart';
 import 'package:rbook/views/viewers/epub_screen.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -56,12 +57,7 @@ class _ReadingNowPageState extends State<ReadingNowPage> {
                 // Convert DocFragment from koreader sync to spine index (or more likely, href (pain in the ass))
                 // Or - convert xpointer (what Kobo outputs) into a CFI
                 // Also need a way to convert back to what KOreader wants - DocFragment should work well for this
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          EpubScreen.fromPath(filePath: _path,)),
-                );
+                MyRouter.pushPage(context, EpubScreen.fromPath(filePath: _path,));
               },
               child: Text('Read book'))),
     );
