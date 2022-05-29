@@ -69,7 +69,7 @@ class _SettingsRowState<T extends ValueSettings> extends State<SettingsRow<T>> {
                 padding: EdgeInsets.all(8.0),
                 child: ImageIcon(
                   AssetImage(
-                    'packages/rbook/assets/images/icon_minus.png',
+                    'assets/images/icon_minus.png',
                   ),
                 ),
               ),
@@ -92,7 +92,7 @@ class _SettingsRowState<T extends ValueSettings> extends State<SettingsRow<T>> {
                 padding: EdgeInsets.all(8.0),
                 child: ImageIcon(
                   AssetImage(
-                    'packages/rbook/assets/images/icon_plus.png',
+                    'assets/images/icon_plus.png',
                   ),
                 ),
               ),

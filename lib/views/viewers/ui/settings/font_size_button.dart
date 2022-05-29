@@ -22,8 +22,8 @@ class FontSizeButton extends StatelessWidget {
           icon: ImageIcon(
             AssetImage(
               (increase)
-                  ? 'packages/rbook/assets/images/icon_font_increase.png'
-                  : 'packages/rbook/assets/images/icon_font_decrease.png',
+                  ? 'assets/images/icon_font_increase.png'
+                  : 'assets/images/icon_font_decrease.png',
             ),
           ),
         ),

@@ -34,7 +34,7 @@ class AlignmentButton extends StatelessWidget {
               padding: const EdgeInsets.all(12.0),
               child: ImageIcon(
                 AssetImage(
-                  'packages/rbook/assets/images/icon_${textAlign.name}.png',
+                  'assets/images/icon_${textAlign.name}.png',
                 ),
               ),
             ),

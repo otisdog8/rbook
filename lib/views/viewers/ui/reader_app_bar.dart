@@ -69,7 +69,7 @@ class ReaderAppBarState extends State<ReaderAppBar> {
                     onPressed: _onBookmarkPressed,
                     icon: const ImageIcon(
                       AssetImage(
-                        'packages/rbook/assets/images/icon_bookmark.png',
+                        'assets/images/icon_bookmark.png',
                       ),
                     ),
                   ),
@@ -78,7 +78,7 @@ class ReaderAppBarState extends State<ReaderAppBar> {
                     onPressed: _onSettingsPressed,
                     icon: const ImageIcon(
                       AssetImage(
-                        'packages/rbook/assets/images/icon_settings.png',
+                        'assets/images/icon_settings.png',
                       ),
                     ),
                   ),
@@ -86,7 +86,7 @@ class ReaderAppBarState extends State<ReaderAppBar> {
                     onPressed: _onMenuPressed,
                     icon: const ImageIcon(
                       AssetImage(
-                        'packages/rbook/assets/images/icon_menu.png',
+                        'assets/images/icon_menu.png',
                       ),
                     ),
                   ),
