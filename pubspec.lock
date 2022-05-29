@@ -23,7 +23,7 @@ packages:
     source: hosted
     version: "2.8.2"
   bloc:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: bloc
       url: "https://pub.dartlang.org"
@@ -86,7 +86,7 @@ packages:
     source: hosted
     version: "1.0.4"
   dartx:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: dartx
       url: "https://pub.dartlang.org"
@@ -100,7 +100,7 @@ packages:
     source: hosted
     version: "1.2.0+1"
   dfunc:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: dfunc
       url: "https://pub.dartlang.org"
@@ -149,7 +149,7 @@ packages:
     source: hosted
     version: "6.1.2"
   fimber:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: fimber
       url: "https://pub.dartlang.org"
@@ -161,28 +161,28 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_bloc:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_bloc
       url: "https://pub.dartlang.org"
     source: hosted
     version: "8.0.1"
   flutter_fimber:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_fimber
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.5"
   flutter_font_icons:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_font_icons
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.5"
   flutter_inappwebview:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_inappwebview
       url: "https://pub.dartlang.org"
@@ -196,7 +196,7 @@ packages:
     source: hosted
     version: "2.0.1"
   flutter_spinkit:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_spinkit
       url: "https://pub.dartlang.org"
@@ -213,7 +213,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_xlider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "."
       ref: master
@@ -222,14 +222,14 @@ packages:
     source: git
     version: "3.4.0"
   fluttertoast:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: fluttertoast
       url: "https://pub.dartlang.org"
     source: hosted
     version: "8.0.9"
   google_fonts:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: google_fonts
       url: "https://pub.dartlang.org"
@@ -257,7 +257,7 @@ packages:
     source: hosted
     version: "4.0.1"
   idb_shim:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: idb_shim
       url: "https://pub.dartlang.org"
@@ -277,13 +277,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.17.0"
-  iridium_reader_widget:
-    dependency: "direct main"
-    description:
-      path: "iridium/reader_widget"
-      relative: true
-    source: path
-    version: "0.0.1"
   js:
     dependency: transitive
     description:
@@ -306,7 +299,7 @@ packages:
     source: hosted
     version: "2.0.2"
   json_theme:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: json_theme
       url: "https://pub.dartlang.org"
@@ -340,6 +333,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.4"
+  md5_file_checksum:
+    dependency: "direct main"
+    description:
+      name: md5_file_checksum
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   meta:
     dependency: transitive
     description:
@@ -348,44 +348,44 @@ packages:
     source: hosted
     version: "1.7.0"
   mno_commons:
-    dependency: transitive
+    dependency: "direct main"
     description:
-      path: "iridium/components/commons"
+      path: "../iridium/components/commons"
       relative: true
     source: path
     version: "0.1.2"
   mno_navigator:
-    dependency: transitive
+    dependency: "direct main"
     description:
-      path: "iridium/components/navigator"
+      path: "../iridium/components/navigator"
       relative: true
     source: path
     version: "0.1.0"
   mno_opds:
-    dependency: transitive
+    dependency: "direct main"
     description:
-      path: "iridium/components/opds"
+      path: "../iridium/components/opds"
       relative: true
     source: path
     version: "0.1.1"
   mno_server:
-    dependency: transitive
+    dependency: "direct main"
     description:
-      path: "iridium/components/server"
+      path: "../iridium/components/server"
       relative: true
     source: path
     version: "0.1.0"
   mno_shared:
-    dependency: transitive
+    dependency: "direct main"
     description:
-      path: "iridium/components/shared"
+      path: "../iridium/components/shared"
       relative: true
     source: path
     version: "0.1.3"
   mno_streamer:
-    dependency: transitive
+    dependency: "direct main"
     description:
-      path: "iridium/components/streamer"
+      path: "../iridium/components/streamer"
       relative: true
     source: path
     version: "0.1.1"
@@ -397,14 +397,14 @@ packages:
     source: hosted
     version: "1.0.0"
   new_version:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: new_version
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.0"
   objectdb:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: objectdb
       url: "https://pub.dartlang.org"
@@ -516,7 +516,7 @@ packages:
     source: hosted
     version: "2.0.6"
   permission_handler:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: permission_handler
       url: "https://pub.dartlang.org"
@@ -593,7 +593,7 @@ packages:
     source: hosted
     version: "4.2.4"
   provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: provider
       url: "https://pub.dartlang.org"
@@ -628,7 +628,7 @@ packages:
     source: hosted
     version: "3.2.0"
   shared_preferences:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shared_preferences
       url: "https://pub.dartlang.org"
@@ -822,7 +822,7 @@ packages:
     source: hosted
     version: "3.0.1"
   uuid:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: uuid
       url: "https://pub.dartlang.org"
@@ -857,7 +857,7 @@ packages:
     source: hosted
     version: "5.4.1"
   xml2json:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: xml2json
       url: "https://pub.dartlang.org"
