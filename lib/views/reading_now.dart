@@ -61,15 +61,22 @@ class _ReadingNowPageState extends State<ReadingNowPage> {
                 // BAD: we currently get location from settings
                 // TODO: fix this
                 SharedPreferences.getInstance().then((prefs) {
-                  var location = prefs!.getString("locatorJson") ?? "";
-                  MyRouter.pushPage(
-                      context,
-                      EpubScreen.fromPath(
-                        filePath: _path,
-                        location: location,
-                      ));
+                  var location = prefs!.getString("locatorJson");
+                  if (location == null) {
+                    MyRouter.pushPage(
+                        context,
+                        EpubScreen.fromPath(
+                          filePath: _path,
+                        ));
+                  } else {
+                    MyRouter.pushPage(
+                        context,
+                        EpubScreen.fromPath(
+                          filePath: _path,
+                          location: location,
+                        ));
+                  }
                 });
-
               },
               child: Text('Read book'))),
     );
