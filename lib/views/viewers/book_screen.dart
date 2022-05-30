@@ -115,6 +115,7 @@ abstract class BookScreenState<T extends BookScreen,
   void onReaderContextCreated(ReaderContext readerContext) {
     this.readerContext = readerContext;
     this.sync = Sync(readerContext);
+    this.sync.initialSync();
     // Use locator here to do stuff?
   }
 

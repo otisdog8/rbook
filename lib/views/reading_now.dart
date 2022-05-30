@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:rbook/util/router.dart';
 import 'package:rbook/views/viewers/epub_screen.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ReadingNowPage extends StatefulWidget {
   const ReadingNowPage({Key? key}) : super(key: key);
@@ -57,7 +58,18 @@ class _ReadingNowPageState extends State<ReadingNowPage> {
                 // Convert DocFragment from koreader sync to spine index (or more likely, href (pain in the ass))
                 // Or - convert xpointer (what Kobo outputs) into a CFI
                 // Also need a way to convert back to what KOreader wants - DocFragment should work well for this
-                MyRouter.pushPage(context, EpubScreen.fromPath(filePath: _path,));
+                // BAD: we currently get location from settings
+                // TODO: fix this
+                SharedPreferences.getInstance().then((prefs) {
+                  var location = prefs!.getString("locatorJson")!;
+                  MyRouter.pushPage(
+                      context,
+                      EpubScreen.fromPath(
+                        filePath: _path,
+                        location: location,
+                      ));
+                });
+
               },
               child: Text('Read book'))),
     );

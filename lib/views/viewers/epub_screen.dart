@@ -100,6 +100,7 @@ class EpubScreenState extends BookScreenState<EpubScreen, EpubController> {
   @override
   Future<bool> onWillPop() async {
     try {
+      sync.aboutToDie();
       readerContext.paginationInfo?.let((paginationInfo) =>
           readerAnnotationRepository.savePosition(paginationInfo));
       Navigator.pop(context, {
