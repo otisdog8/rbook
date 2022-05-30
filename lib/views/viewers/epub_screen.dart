@@ -82,19 +82,26 @@ class EpubScreen extends BookScreen {
   State<StatefulWidget> createState() => EpubScreenState();
 }
 
-class EpubScreenState extends BookScreenState<EpubScreen, EpubController> {
+class EpubScreenState extends BookScreenState<EpubScreen, EpubController> with WidgetsBindingObserver {
   late ViewerSettingsBloc _viewerSettingsBloc;
   late ReaderThemeBloc _readerThemeBloc;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _viewerSettingsBloc =
         ViewerSettingsBloc(EpubReaderState("", widget.settings ?? 100));
     debugPrint(widget.theme.toString());
     _readerThemeBloc = ReaderThemeBloc(widget.theme != null
         ? ReaderThemeConfig.fromJson(widget.theme!)
         : ReaderThemeConfig.defaultTheme);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   @override
@@ -112,7 +119,13 @@ class EpubScreenState extends BookScreenState<EpubScreen, EpubController> {
       // perhaps a snackbar notification can be added to indicate that there was a problem saving last location and settings
       debugPrint('error returning location and settings');
     }
+
     return true;
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    sync.processLifecycleState(state);
   }
 
   @override

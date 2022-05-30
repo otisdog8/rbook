@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:dio/dio.dart';
 import 'package:mno_navigator/publication.dart';
@@ -19,7 +20,8 @@ class Sync {
   bool timestampLock = true;
   Dio dio = Dio();
   String? md5Sum;
-  SharedPreferences? prefs; //TODO: replace this with some json db so we can efficiently do this for multiple documents
+  SharedPreferences?
+      prefs; //TODO: replace this with some json db so we can efficiently do this for multiple documents
 
   Future<void> pushProgress() async {
     // TODO: Fix weird error that corrupts the database somehow
@@ -31,7 +33,7 @@ class Sync {
           return;
         }
         var position = i + 2;
-        try{
+        try {
           await dio.put('/syncs/progress',
               data: {
                 "progress": '/body/DocFragment[$position]',
@@ -44,33 +46,71 @@ class Sync {
                 "x-auth-user": username,
                 "x-auth-key": password,
               }));
-        }
-        catch (error) {
+        } catch (error) {
           // This means (probably) that the user has incorrect username/password
           // TODO: inform the user about incorrect username/password
           return;
         }
-
       }
     }
   }
 
-  Future<void> pullProgress() async {
-    dynamic data; // Did this instead of var to get rid of the warning from flutter
+  Future<void> processLifecycleState(AppLifecycleState state) async {
+    switch (state) {
+      case AppLifecycleState.paused:
+      case AppLifecycleState.inactive:
+        // Push only if warranted
+        await pullThenPush();
+        break;
+      case AppLifecycleState.resumed:
+        // Pull progress
+        await pullProgress();
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  Future<void> pullThenPush() async {
+    // TODO: Think about and fix all race conditions for pulling and pushing
+    dynamic
+        data; // Did this instead of var to get rid of the warning from flutter
     try {
       data = await dio.get('/syncs/progress/$md5Sum',
           options: Options(headers: {
             "x-auth-user": username,
             "x-auth-key": password,
           }));
-    }
-    catch (error) {
+    } catch (error) {
       return;
     }
 
     var result = data.data;
-    if (result["device"] == device &&
-        result[ "device_id" ] == deviceID) {
+    if (result["device"] == device && result["device_id"] == deviceID) {
+      return;
+    }
+    if (result["timestamp"] * 1000 < timestamp) {
+      return;
+    }
+    await pushProgress();
+  }
+
+  Future<void> pullProgress() async {
+    dynamic
+        data; // Did this instead of var to get rid of the warning from flutter
+    try {
+      data = await dio.get('/syncs/progress/$md5Sum',
+          options: Options(headers: {
+            "x-auth-user": username,
+            "x-auth-key": password,
+          }));
+    } catch (error) {
+      return;
+    }
+
+    var result = data.data;
+    if (result["device"] == device && result["device_id"] == deviceID) {
       return;
     }
     if (result["timestamp"] * 1000 < timestamp) {
@@ -82,9 +122,7 @@ class Sync {
     var spineIndex = int.parse(progress);
     spineIndex -= 2;
     var link = readerContext.flattenedTableOfContents[spineIndex];
-    readerContext.execute(
-        GoToHrefCommand(link.href, null)
-    );
+    readerContext.execute(GoToHrefCommand(link.href, null));
     // grab from server
     // Check device type and ID
     // Check timestamps
@@ -126,14 +164,11 @@ class Sync {
     }
     var currentHref = "";
     readerContext.currentLocationStream.listen(
-          (event) {
+      (event) {
         // TODO: handle last page turn timestamp
         if (!timestampLock) {
-          timestamp = DateTime
-              .now()
-              .millisecondsSinceEpoch;
-        }
-        else {
+          timestamp = DateTime.now().millisecondsSinceEpoch;
+        } else {
           pullProgress().then((val) {
             timestampLock = false;
           });
@@ -146,7 +181,6 @@ class Sync {
     );
     // Don't need to make this updatable because no settings editing from reader screen
     dio.options.baseUrl = serverUrl;
-
 
     // This should run once per book open so its safe to do an initial? sync here (maybe)
     // Execution order is REALLY sketchy so we lock lastTimestamp first after loading it (from god knows where)
