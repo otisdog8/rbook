@@ -11,19 +11,17 @@ class Sync {
   String serverUrl =
       "http://10.0.0.2:8081/"; // Eventually we'll get this from settings
   String username =
-      "dog3779"; //NOTE: we don't have to handle updating these because settings *should* be inaccessable from here
+      "dog3779"; //NOTE: we don't have to handle updating these because settings *should* be inaccessible from here
   String password = "78c5a32eb836ef6c354f76cc1f379974";
   String device = "ios";
-  String device_id = "rooty_dev_test";
+  String deviceID = "rooty_dev_test";
   int timestamp = 0;
   bool timestampLock = true;
   Dio dio = Dio();
   String? md5Sum;
-  SharedPreferences? prefs =
-  null; //TODO: replace this with some json db so we can efficently do this for multiple documents
+  SharedPreferences? prefs; //TODO: replace this with some json db so we can efficiently do this for multiple documents
 
   Future<void> pushProgress() async {
-    //TODO: proper error handling for dio
     // TODO: Fix weird error that corrupts the database somehow
     for (var i = 0; i < readerContext.flattenedTableOfContents.length; i++) {
       if (readerContext.flattenedTableOfContents[i].href ==
@@ -33,39 +31,49 @@ class Sync {
           return;
         }
         var position = i + 2;
-        await dio.put('/syncs/progress',
-            data: {
-              "progress": '/body/DocFragment[$position]',
-              "device": device,
-              "device_id": device_id,
-              "document": md5Sum,
-              "percentage": 0.0
-            },
-            options: Options(headers: {
-              "x-auth-user": username,
-              "x-auth-key": password,
-            }));
+        try{
+          await dio.put('/syncs/progress',
+              data: {
+                "progress": '/body/DocFragment[$position]',
+                "device": device,
+                "device_id": deviceID,
+                "document": md5Sum,
+                "percentage": 0.0
+              },
+              options: Options(headers: {
+                "x-auth-user": username,
+                "x-auth-key": password,
+              }));
+        }
+        catch (error) {
+          // This means (probably) that the user has incorrect username/password
+          // TODO: inform the user about incorrect username/password
+          return;
+        }
+
       }
     }
   }
 
   Future<void> pullProgress() async {
-    var data = await dio.get('/syncs/progress/$md5Sum',
-        options: Options(headers: {
-          "x-auth-user": username,
-          "x-auth-key": password,
-        }));
-    print("HENCE FOLLOWS PROGRESS DATA");
-    print(data);
-    var result = data.data;
-    if (result["device"] == this.device &&
-        result[ "device_id" ] == this.device_id) {
-      print("Quit on device matching");
+    dynamic data; // Did this instead of var to get rid of the warning from flutter
+    try {
+      data = await dio.get('/syncs/progress/$md5Sum',
+          options: Options(headers: {
+            "x-auth-user": username,
+            "x-auth-key": password,
+          }));
+    }
+    catch (error) {
       return;
     }
-    if (result["timestamp"] * 1000 < this.timestamp) {
-      print(timestamp);
-      print("Quit on timestamp matching");
+
+    var result = data.data;
+    if (result["device"] == device &&
+        result[ "device_id" ] == deviceID) {
+      return;
+    }
+    if (result["timestamp"] * 1000 < timestamp) {
       return;
     }
     //TODO: to fix this, we need to fix the code running too fast. Maybe set the initial pullProgress to execute on the first pagination event? as that ensures that the code has "activated"
@@ -101,9 +109,9 @@ class Sync {
   initialSync() async {
     // This function is also run at the start of the program (after Sync is initiated)
     // This means init logic CAN be put in here, and it will work asynchronously
-    this.prefs = await SharedPreferences.getInstance();
+    prefs = await SharedPreferences.getInstance();
     var lastPageTimestamp = prefs?.getInt("lastPageTimestamp");
-    this.timestamp = lastPageTimestamp!;
+    timestamp = lastPageTimestamp!;
   }
 
   Sync(this.readerContext) {
@@ -114,7 +122,7 @@ class Sync {
       var digest = md5.convert(bytes);
       md5Sum = digest.toString();
     } catch (exception) {
-      print("err");
+      return;
     }
     var currentHref = "";
     readerContext.currentLocationStream.listen(
@@ -127,7 +135,7 @@ class Sync {
         }
         else {
           pullProgress().then((val) {
-            this.timestampLock = false;
+            timestampLock = false;
           });
         }
         if (currentHref != readerContext.currentSpineItem!.href) {
@@ -135,10 +143,8 @@ class Sync {
           pushProgress();
         }
       },
-      onDone: () => print('Done'),
-      onError: (error) => print(error),
     );
-    // Don't need to make this updatable becuase no settings editing from reader screen
+    // Don't need to make this updatable because no settings editing from reader screen
     dio.options.baseUrl = serverUrl;
 
 
