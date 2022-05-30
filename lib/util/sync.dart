@@ -149,7 +149,7 @@ class Sync {
     // This means init logic CAN be put in here, and it will work asynchronously
     prefs = await SharedPreferences.getInstance();
     var lastPageTimestamp = prefs?.getInt("lastPageTimestamp");
-    timestamp = lastPageTimestamp!;
+    timestamp = lastPageTimestamp ?? 0;
   }
 
   Sync(this.readerContext) {
